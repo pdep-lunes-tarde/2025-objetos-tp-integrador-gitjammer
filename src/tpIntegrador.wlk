@@ -60,18 +60,18 @@ class Bechstein inherits Instrumento {
 }
 
 class Stagg inherits Instrumento {
-    var tembrolo
+    var temolo
     const pintura
 
     override method afinado() {
-        return tembrolo < 10
+        return temolo < 10
     }
 
     override method costo() {
-        if((20 - tembrolo) < 15) {
+        if((20 - temolo) < 15) {
             return 15
         } else {
-            return 20 - tembrolo
+            return 20 - temolo
         }
     }
 
@@ -81,3 +81,25 @@ class Stagg inherits Instrumento {
 }
 
 const guitarra = new FenderStratocaster(color = "negro")
+
+class Musico{
+    method esFeliz(){}
+
+    method instrumento(){}
+}
+
+object johann inherits Musico{
+    var instrumento = new Jupiter(sordina=true, temperatura=20)
+
+    override method esFeliz(){
+        return instrumento.costo() > 20
+    }
+}
+
+object wolfgang inherits Musico{
+    var instrumento
+    
+    method esFeliz(){
+
+    }
+}
