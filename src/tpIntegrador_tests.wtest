@@ -3,3 +3,124 @@ import tpIntegrador.*
 test "Test de prueba" {
 	assert.equals(4, 2 + 2)
 }
+
+const fenderNegra = new FenderStratocaster(color="negro")
+test "Fender esta afinada" {
+	assert.equals(true, fenderNegra.afinado())
+}
+
+test "Fender negra cuesta 15" {
+	assert.equals(15, fenderNegra.costo())
+}
+const fenderRoja = new FenderStratocaster(color="rojo")
+test "Fender roja cuesta 10" {
+	assert.equals(10, fenderRoja.costo())
+}
+
+test "Una Fender es valiosa" {
+	assert.equals(true, fenderNegra.esValioso() && fenderRoja.esValioso())
+}
+
+const jupiter20 = new Jupiter(sordina=false, temperatura=20)
+test "Una trompeta Júpiter a una temperatura ambiente de 20 grados está afinada" {
+    assert.equals(true, jupiter20.afinado())
+}
+
+const jupiter25 = new Jupiter(sordina=false, temperatura=25)
+test "Una trompeta Júpiter a una temperatura ambiente de 25 grados está afinada" {
+    assert.equals(true, jupiter25.afinado())
+}
+
+const jupiter19 = new Jupiter(sordina=false, temperatura=19)
+test "Una trompeta Júpiter a una temperatura ambiente de 19 grados no está afinada" {
+    assert.equals(false, jupiter19.afinado())
+}
+
+const jupiter26 = new Jupiter(sordina=false, temperatura=26)
+test "Una trompeta Júpiter a una temperatura ambiente de 26 grados no está afinada" {
+    assert.equals(false, jupiter26.afinado())
+}
+
+const jupiter19afinada = new Jupiter(sordina=false, temperatura=19)
+test "Una trompeta Júpiter a una temperatura ambiente de 19 grados, si la afinamos, pasa a estar afinada" {
+    jupiter19afinada.afinar()
+    assert.equals(true, jupiter19afinada.afinado())
+}
+
+const jupiterSinSordina = new Jupiter(sordina=false, temperatura=20)
+test "La trompeta cuesta sin sordina 30 chelines" {
+    assert.equals(30, jupiterSinSordina.costo())
+}
+
+const jupiterConSordina = new Jupiter(sordina=true, temperatura=20)
+test "La trompeta cuesta con sordina 35 chelines" {
+    assert.equals(35, jupiterConSordina.costo())
+}
+
+const jupiterNoValiosa = new Jupiter(sordina=false, temperatura=20)
+test "La trompeta no es valiosa" {
+    assert.equals(false, jupiterNoValiosa.esValioso())
+}
+
+const piano5 = new Bechstein()
+test "El piano en una habitación de 5x5 está afinado" {
+    assert.equals(true, piano5.afinado())
+}
+
+const piano20 = new Bechstein(ancho=5, largo=4)
+test "El piano en una habitación chica (de 20 metros cuadrados) no está afinado" {
+    assert.equals(false, piano20.afinado())
+}
+
+test "El costo del piano en la habitación de 5x5 es de 10" {
+    assert.equals(10, piano5.costo())
+}
+
+test "El piano es valioso en la habitación inicial de 5x5" {
+    assert.equals(true, piano5.esValioso())
+}
+
+test "El piano movido a una habitación chica (de 20 metros cuadrados) no es valioso" {
+    assert.equals(false, piano20.esValioso())
+}
+
+const stagg0 = new Stagg(tremolo=0, pintura="")
+test "El violín Stagg comienza afinado (0 trémolos)" {
+    assert.equals(true, stagg0.afinado())
+}
+
+const stagg9 = new Stagg(tremolo=9, pintura="")
+test "El violín con 9 trémolos todavía está afinado" {
+    assert.equals(true, stagg9.afinado())
+}
+
+const stagg10 = new Stagg(tremolo=10, pintura="")
+test "El violín luego de 10 trémolos exactos queda desafinado" {
+    assert.equals(false, stagg10.afinado())
+}
+
+const staggCostoInicial = new Stagg(tremolo=0, pintura="")
+test "El violín tiene un costo inicial de 20 chelines (sin trémolos)" {
+    assert.equals(20, staggCostoInicial.costo())
+}
+
+const stagg2 = new Stagg(tremolo=2, pintura="")
+test "Con exactamente 2 trémolos, el violín tiene un costo de 18 chelines" {
+    assert.equals(18, stagg2.costo())
+}
+
+const stagg10costo = new Stagg(tremolo=10, pintura="")
+test "Con 10 trémolos, el violín tiene un costo de 15 chelines (nunca baja de 15)" {
+    assert.equals(15, stagg10costo.costo())
+}
+
+const staggLaca = new Stagg(tremolo=0, pintura="laca acrílica")
+test "Pintado con laca acrílica, el violín es valioso" {
+    assert.equals(true, staggLaca.esValioso())
+}
+
+const staggLatex = new Stagg(tremolo=0, pintura="látex satinado")
+test "Pintado con látex satinado, el violín no es valioso" {
+    assert.equals(false, staggLatex.esValioso())
+}
+

@@ -9,6 +9,10 @@ class Instrumento{
 class FenderStratocaster inherits Instrumento {
     const color
 
+    override method afinado(){
+        return true
+    }
+
     override method costo() {
         if(color == "negro") {
             return 15
@@ -25,9 +29,13 @@ class FenderStratocaster inherits Instrumento {
 class Jupiter inherits Instrumento {
     const sordina
     const temperatura
+    var estaAfinado = false
 
     override method afinado() {
-        return temperatura <= 25 && temperatura >= 20
+        if(temperatura <= 25 && temperatura >= 20){
+            return true
+        }
+        return estaAfinado
     }
 
     override method costo() {
@@ -41,17 +49,22 @@ class Jupiter inherits Instrumento {
     override method esValioso() {
         return false
     }
+
+    method afinar(){
+        estaAfinado = true
+    }
 }
 
 class Bechstein inherits Instrumento {
-    const mtsHabitacion = 5
+    var largo = 5
+    var ancho = 5
 
     override method afinado(){
-        return mtsHabitacion*mtsHabitacion > 20
+        return largo*ancho > 20
     }
 
     override method costo() {
-        return 2 * mtsHabitacion
+        return 2 * ancho
     }
 
     override method esValioso() {
@@ -60,23 +73,23 @@ class Bechstein inherits Instrumento {
 }
 
 class Stagg inherits Instrumento {
-    var temolo
+    var tremolo
     const pintura
 
     override method afinado() {
-        return temolo < 10
+        return tremolo < 10
     }
 
     override method costo() {
-        if((20 - temolo) < 15) {
+        if((20 - tremolo) < 15) {
             return 15
         } else {
-            return 20 - temolo
+            return 20 - tremolo
         }
     }
 
     override method esValioso() {
-        return pintura == "laca acrilica"
+        return pintura == "laca acrílica"
     }
 }
 
@@ -118,7 +131,7 @@ object giuseppe inherits Musico{
 }
 
 object maddalena inherits Musico{
-    var instrumento = new Stagg(temolo=true, pintura="mate")
+    var instrumento = new Stagg(tremolo=true, pintura="mate")
 
     override method esFeliz(){
         return instrumento.costo() % 2 == 0
