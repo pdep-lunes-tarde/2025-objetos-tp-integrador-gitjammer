@@ -124,3 +124,51 @@ test "Pintado con látex satinado, el violín no es valioso" {
     assert.equals(false, staggLatex.esValioso())
 }
 
+test "Johann es feliz con una trompeta Jupiter (que es cara)" {
+    johann.cambiarInstrumento(new Jupiter(sordina=true, temperatura=20))
+    assert.equals(true, johann.esFeliz())
+}
+
+test "Johann no es feliz con un violín Stagg (sin trémolos, que no es cara)" {
+    johann.cambiarInstrumento(new Stagg(tremolo=0, pintura="mate"))
+    assert.equals(false, johann.esFeliz())
+}
+
+test "Wolfgang es feliz si Johann tiene una trompeta Jupiter" {
+    johann.cambiarInstrumento(new Jupiter(sordina=true, temperatura=20))
+    assert.equals(true, wolfgang.esFeliz())
+}
+
+test "Wolfgang no es feliz si Johann tiene un violín Stagg (sin trémolos)" {
+    johann.cambiarInstrumento(new Stagg(tremolo=0, pintura="mate"))
+    assert.equals(false, wolfgang.esFeliz())
+}
+
+test "Giuseppe es feliz con una guitarra Fender (que está siempre afinada)" {
+    giuseppe.cambiarInstrumento(new FenderStratocaster(color="rojo"))
+    assert.equals(true, giuseppe.esFeliz())
+}
+test "Giuseppe no es feliz con un piano Bechstein en una habitación de un metro cuadrado" {
+    giuseppe.cambiarInstrumento(new Bechstein(ancho=1, largo=1))
+    assert.equals(false, giuseppe.esFeliz())
+}
+
+test "Maddalena con el violín Stagg sin trémolos es feliz (costo 20, es par)" {
+    maddalena.cambiarInstrumento(new Stagg(tremolo=0, pintura="mate"))
+    assert.equals(true, maddalena.esFeliz())
+}
+
+test "Maddalena con el violín Stagg con un trémolo no es feliz (costo 19, es impar)" {
+    maddalena.cambiarInstrumento(new Stagg(tremolo=1, pintura="mate"))
+    assert.equals(false, maddalena.esFeliz())
+}
+
+test "En la asociación los músicos felices deben ser Giuseppe y Maddalena" {
+    johann.cambiarInstrumento(new Stagg(tremolo=0, pintura="mate"))
+    wolfgang.cambiarInstrumento("")
+    giuseppe.cambiarInstrumento(new FenderStratocaster(color="rojo"))
+    maddalena.cambiarInstrumento(new Stagg(tremolo=0, pintura="mate"))
+    
+    const musicosFelices = [johann, wolfgang, giuseppe, maddalena].filter({m => m.esFeliz()})
+    assert.equals([giuseppe, maddalena], musicosFelices)
+}

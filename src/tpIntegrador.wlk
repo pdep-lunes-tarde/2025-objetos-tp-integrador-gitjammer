@@ -96,42 +96,44 @@ class Stagg inherits Instrumento {
 const guitarra = new FenderStratocaster(color = "negro")
 
 class Musico{
+    var instrumento
+
     method esFeliz(){}
+
+    method cambiarInstrumento(nuevoInstrumento){
+        instrumento = nuevoInstrumento
+    }    
 }
 
-object johann inherits Musico{
-    var instrumento = new Jupiter(sordina=true, temperatura=20)
+object johann inherits Musico(instrumento= new Jupiter(sordina=true, temperatura=20)){
 
     override method esFeliz(){
         return instrumento.costo() > 20
     }
 }
 
-object wolfgang inherits Musico{
+object wolfgang inherits Musico(instrumento=""){
     
     override method esFeliz(){
         return johann.esFeliz()
     }
 }
 
-object antonio inherits Musico {
-    var instrumento = new Bechstein()
+object antonio inherits Musico(instrumento = new Bechstein()) {
 
     override method esFeliz(){
         return instrumento.esValioso()
     }
 }
 
-object giuseppe inherits Musico{
-    var instrumento = new FenderStratocaster(color="rojo")
+object giuseppe inherits Musico(instrumento = new FenderStratocaster(color="rojo")){
 
     override method esFeliz(){
         return instrumento.afinado()
     }
 }
 
-object maddalena inherits Musico{
-    var instrumento = new Stagg(tremolo=true, pintura="mate")
+object maddalena inherits Musico(instrumento = new Stagg(tremolo=true, pintura="mate")){
 
     override method esFeliz(){
         return instrumento.costo() % 2 == 0
