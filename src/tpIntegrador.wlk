@@ -84,8 +84,6 @@ const guitarra = new FenderStratocaster(color = "negro")
 
 class Musico{
     method esFeliz(){}
-
-    method instrumento(){}
 }
 
 object johann inherits Musico{
@@ -97,9 +95,32 @@ object johann inherits Musico{
 }
 
 object wolfgang inherits Musico{
-    var instrumento
     
-    method esFeliz(){
+    override method esFeliz(){
+        return johann.esFeliz()
+    }
+}
 
+object antonio inherits Musico {
+    var instrumento = new Bechstein()
+
+    override method esFeliz(){
+        return instrumento.esValioso()
+    }
+}
+
+object giuseppe inherits Musico{
+    var instrumento = new FenderStratocaster(color="rojo")
+
+    override method esFeliz(){
+        return instrumento.afinado()
+    }
+}
+
+object maddalena inherits Musico{
+    var instrumento = new Stagg(temolo=true, pintura="mate")
+
+    override method esFeliz(){
+        return instrumento.costo() % 2 == 0
     }
 }
