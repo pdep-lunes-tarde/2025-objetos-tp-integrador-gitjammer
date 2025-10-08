@@ -1,19 +1,31 @@
 class Instrumento{
+
+    var familia
+
     method afinado(){}
 
     method costo(){}
 
     method esValioso(){}
+
+    method getFamilia(){
+        return familia
+    }
 }
 
-class FenderStratocaster inherits Instrumento {
+class FenderStratocaster{
     const color
+    const familia = "Cuerdas"
 
-    override method afinado(){
+    method getFamilia() = familia
+
+    method nombre()="FenderStratocaster"
+
+    method afinado(){
         return true
     }
 
-    override method costo() {
+    method costo() {
         if(color == "negro") {
             return 15
         } else {
@@ -21,24 +33,33 @@ class FenderStratocaster inherits Instrumento {
         }
     }
 
-    override method esValioso() {
+    method esValioso() {
         return true
     }
 }
 
-class Jupiter inherits Instrumento {
+class Jupiter{
     const sordina
     const temperatura
+    const familia = "Viento"
     var estaAfinado = false
 
-    override method afinado() {
+    method nombre() = "Jupiter"
+
+    method getFamilia() = familia
+
+    method tieneSordina(){
+        return sordina
+    }
+
+    method afinado() {
         if(temperatura <= 25 && temperatura >= 20){
             return true
         }
         return estaAfinado
     }
 
-    override method costo() {
+    method costo() {
         if(sordina) {
             return 35
         } else {
@@ -46,7 +67,7 @@ class Jupiter inherits Instrumento {
         }
     }
 
-    override method esValioso() {
+    method esValioso() {
         return false
     }
 
@@ -55,32 +76,46 @@ class Jupiter inherits Instrumento {
     }
 }
 
-class Bechstein inherits Instrumento {
+class Bechstein{
     var largo = 5
     var ancho = 5
+    const familia = "Cuerdas"
+    
+    method getLargo() = largo
 
-    override method afinado(){
+    method getAncho() = ancho
+
+    method getFamilia() = familia
+
+    method nombre() = "Bechstein"
+
+    method afinado(){
         return largo*ancho > 20
     }
 
-    override method costo() {
+    method costo() {
         return 2 * ancho
     }
 
-    override method esValioso() {
+    method esValioso() {
         return self.afinado()
     }
 }
 
-class Stagg inherits Instrumento {
+class Stagg{
     var tremolo
     const pintura
+    const familia = "Cuerdas"
 
-    override method afinado() {
+    method getFamilia()=familia
+
+    method nombre()="Stagg"
+
+    method afinado() {
         return tremolo < 10
     }
 
-    override method costo() {
+    method costo() {
         if((20 - tremolo) < 15) {
             return 15
         } else {
@@ -88,54 +123,106 @@ class Stagg inherits Instrumento {
         }
     }
 
-    override method esValioso() {
+    method esValioso() {
         return pintura == "laca acrílica"
     }
 }
 
-const guitarra = new FenderStratocaster(color = "negro")
 
-class Musico{
-    var instrumento
+object johann{
+    var instrumento = new Jupiter(sordina=true, temperatura=20)
+    method esFeliz(){
+        return instrumento.costo() > 20
+    }
+    method cambiarInstrumento(nuevoInstrumento){
+        instrumento = nuevoInstrumento
+    }
+}
 
-    method esFeliz(){}
+object wolfgang{
+    
+    var instrumento = ""
+
+    method esFeliz(){
+        return johann.esFeliz()
+    }
 
     method cambiarInstrumento(nuevoInstrumento){
         instrumento = nuevoInstrumento
-    }    
-}
-
-object johann inherits Musico(instrumento= new Jupiter(sordina=true, temperatura=20)){
-
-    override method esFeliz(){
-        return instrumento.costo() > 20
     }
 }
 
-object wolfgang inherits Musico(instrumento=""){
-    
-    override method esFeliz(){
-        return johann.esFeliz()
-    }
-}
+object antonio{
+    var instrumento = new Bechstein()
 
-object antonio inherits Musico(instrumento = new Bechstein()) {
-
-    override method esFeliz(){
+    method esFeliz(){
         return instrumento.esValioso()
     }
-}
 
-object giuseppe inherits Musico(instrumento = new FenderStratocaster(color="rojo")){
-
-    override method esFeliz(){
-        return instrumento.afinado()
+    method cambiarInstrumento(nuevoInstrumento){
+        instrumento = nuevoInstrumento
     }
 }
 
-object maddalena inherits Musico(instrumento = new Stagg(tremolo=true, pintura="mate")){
+object giuseppe {
+    var instrumento = new FenderStratocaster(color="rojo")
 
-    override method esFeliz(){
+    method esFeliz(){
+        return instrumento.afinado()
+    }
+
+    method cambiarInstrumento(nuevoInstrumento){
+        instrumento = nuevoInstrumento
+    }
+}
+
+object maddalena{
+    var instrumento = new Stagg(tremolo=true, pintura="mate")
+
+    method esFeliz(){
         return instrumento.costo() % 2 == 0
+    }
+
+    method cambiarInstrumento(nuevoInstrumento){
+        instrumento = nuevoInstrumento
+    }
+}
+
+class Musico{ // Generico, debe haber una forma de crear una clase Musico con este como hijo junto con los antes ya definidos
+    var instrumento
+    const preferencia
+
+    method esFeliz(){
+        if(instrumento.nombre() == "Jupiter"){
+            return instrumento.tieneSordina()
+        }
+        return instrumento.nombre() == "Bechstein" && (instrumento.getLargo() > 6 || instrumento.getAncho() > 6)
+    }
+
+    method cambiarInstrumento(nuevoInstrumento){
+        instrumento = nuevoInstrumento
+    }
+
+    method esExperto(){
+        return instrumento.getFamilia() == preferencia
+    }
+}
+
+class Orquesta{
+    const musicos = []
+    const maximoDeMusicos
+
+    method getMusicos()=musicos
+
+    method agregarMusico(musico){
+        if(maximoDeMusicos != musicos.size() && !musicos.contains(musico)){
+            musicos.add(musico)
+        }
+    }
+
+    method estaBienFormada(){
+        var todosFelices = true
+        musicos.forEach({m => todosFelices = m.esFeliz() && todosFelices})
+        return todosFelices
     }
 }
