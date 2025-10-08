@@ -1,3 +1,10 @@
+class Musico{
+    var instrumento
+
+    method cambiarInstrumento(nuevoInstrumento){
+        instrumento = nuevoInstrumento
+    }
+}
 
 class FenderStratocaster{
     const color
@@ -115,67 +122,37 @@ class Stagg{
 }
 
 
-object johann{
-    var instrumento = new Jupiter(sordina=true, temperatura=20)
+object johann inherits Musico(instrumento = new Jupiter(sordina=true, temperatura=20)){
     method esFeliz(){
         return instrumento.costo() > 20
     }
-    method cambiarInstrumento(nuevoInstrumento){
-        instrumento = nuevoInstrumento
-    }
 }
 
-object wolfgang{
-    
-    var instrumento = ""
-
+object wolfgang inherits Musico(instrumento = ""){
     method esFeliz(){
         return johann.esFeliz()
     }
-
-    method cambiarInstrumento(nuevoInstrumento){
-        instrumento = nuevoInstrumento
-    }
 }
 
-object antonio{
-    var instrumento = new Bechstein()
-
+object antonio inherits Musico(instrumento = new Bechstein()){
     method esFeliz(){
         return instrumento.esValioso()
     }
-
-    method cambiarInstrumento(nuevoInstrumento){
-        instrumento = nuevoInstrumento
-    }
 }
 
-object giuseppe {
-    var instrumento = new FenderStratocaster(color="rojo")
-
+object giuseppe inherits Musico(instrumento = new FenderStratocaster(color="rojo")){
     method esFeliz(){
         return instrumento.afinado()
     }
-
-    method cambiarInstrumento(nuevoInstrumento){
-        instrumento = nuevoInstrumento
-    }
 }
 
-object maddalena{
-    var instrumento = new Stagg(tremolo=true, pintura="mate")
-
+object maddalena inherits Musico(instrumento = new Stagg(tremolo=true, pintura="mate")){
     method esFeliz(){
         return instrumento.costo() % 2 == 0
     }
-
-    method cambiarInstrumento(nuevoInstrumento){
-        instrumento = nuevoInstrumento
-    }
 }
 
-class Musico{ // Generico, debe haber una forma de crear una clase Musico con este como hijo junto con los antes ya definidos
-    var instrumento
+class MusicoGenerico inherits Musico{ 
     const preferencia
 
     method esFeliz(){
@@ -184,11 +161,6 @@ class Musico{ // Generico, debe haber una forma de crear una clase Musico con es
         }
         return instrumento.nombre() == "Bechstein" && (instrumento.getLargo() > 6 || instrumento.getAncho() > 6)
     }
-
-    method cambiarInstrumento(nuevoInstrumento){
-        instrumento = nuevoInstrumento
-    }
-
     method esExperto(){
         return instrumento.getFamilia() == preferencia
     }
@@ -270,10 +242,10 @@ object calculadorDiferenciaFechas{
 class Instrumento{
 
     const familia
-    const afinaciones = []
+    const verificaciones = [] // del tipo Verificacion
 
     method afinado(fechaActual){
-        const ultimaAfinacion = afinaciones.last()
+        const ultimaAfinacion = verificaciones.last()
         const diferencia = calculadorDiferenciaFechas.calcular(ultimaAfinacion, fechaActual)
 
         return (diferencia.getMeses() == 0 && diferencia.getAnios() == 0)
@@ -300,7 +272,7 @@ class Instrumento{
         return familia
     }
 }
-
-class Afinacion{
-    
+class Verificacion{
+    const tecnico
+    const fecha // Del tipo Fecha
 }

@@ -176,27 +176,27 @@ test "En la asociación los músicos felices deben ser Giuseppe y Maddalena" {
 // 3
 // Musicos
 test "Un músico es experto porque su preferencia coincide con la del instrumento que tiene" {
-    const musico = new Musico(preferencia = "Viento", instrumento=new Jupiter(sordina=true, temperatura=20))
+    const musico = new MusicoGenerico(preferencia = "Viento", instrumento=new Jupiter(sordina=true, temperatura=20))
     assert.equals(true, musico.esExperto())
 }
 
 test "Un músico cuya preferencia de familia no coincide con la del instrumento no es experto" {
-    const musico = new Musico(preferencia = "Cuerdas", instrumento=new Jupiter(sordina=true, temperatura=20))
+    const musico = new MusicoGenerico(preferencia = "Cuerdas", instrumento=new Jupiter(sordina=true, temperatura=20))
     assert.equals(false, musico.esExperto())
 }
 
 test "Un músico feliz porque la trompeta Jupiter tiene sordina y es copada" {
-    const musico = new Musico(preferencia = "Viento", instrumento=new Jupiter(sordina=true, temperatura=20))
+    const musico = new MusicoGenerico(preferencia = "Viento", instrumento=new Jupiter(sordina=true, temperatura=20))
     assert.equals(true, musico.esFeliz())
 }
 
 test "Un músico no es feliz porque la trompeta Jupiter no tiene sordina y no es copada" {
-    const musico = new Musico(preferencia = "Viento", instrumento=new Jupiter(sordina=false, temperatura=20))
+    const musico = new MusicoGenerico(preferencia = "Viento", instrumento=new Jupiter(sordina=false, temperatura=20))
     assert.equals(false, musico.esFeliz())
 }
 
 test "Un músico común no es feliz ni con violín Stagg ni con guitarra Fender" {
-    const musico = new Musico(preferencia = "Cuerdas", instrumento=new Stagg(tremolo=0, pintura="mate"))
+    const musico = new MusicoGenerico(preferencia = "Cuerdas", instrumento=new Stagg(tremolo=0, pintura="mate"))
     assert.equals(false, musico.esFeliz())
 
     musico.cambiarInstrumento(new FenderStratocaster(color="azul"))
@@ -204,7 +204,7 @@ test "Un músico común no es feliz ni con violín Stagg ni con guitarra Fender"
 }
 
 test "Un músico común que es feliz con un piano Bechstein (largo o ancho > 6)" {
-    const musico = new Musico(preferencia = "Cuerdas",instrumento=new Bechstein(largo=7, ancho=3))
+    const musico = new MusicoGenerico(preferencia = "Cuerdas",instrumento=new Bechstein(largo=7, ancho=3))
     assert.equals(true, musico.esFeliz())
 
     musico.cambiarInstrumento(new Bechstein(largo=3, ancho=8))
@@ -212,12 +212,12 @@ test "Un músico común que es feliz con un piano Bechstein (largo o ancho > 6)"
 }
 
 test "Un músico común no es feliz si la habitación no es suficientemente ancha ni larga" {
-    const musico = new Musico(preferencia = "Cuerdas", instrumento=new Bechstein(largo=5, ancho=5))
+    const musico = new MusicoGenerico(preferencia = "Cuerdas", instrumento=new Bechstein(largo=5, ancho=5))
     assert.equals(false, musico.esFeliz())
 }
 
 test "Un músico con preferencia por percusión no es feliz con un instrumento de cuerdas" {
-    const musico = new Musico(preferencia = "Percusion", instrumento= new Stagg(tremolo=0, pintura="mate"))
+    const musico = new MusicoGenerico(preferencia = "Percusion", instrumento= new Stagg(tremolo=0, pintura="mate"))
     assert.equals(false, musico.esExperto() || musico.esFeliz())
 }
 
@@ -225,7 +225,7 @@ test "Un músico con preferencia por percusión no es feliz con un instrumento d
 
 test "No se puede agregar dos veces el mismo músico" {
     const orquesta = new Orquesta(maximoDeMusicos = 3)
-    const musico = new Musico(preferencia = "viento", instrumento=new Bechstein(largo=8, ancho=3))
+    const musico = new MusicoGenerico(preferencia = "viento", instrumento=new Bechstein(largo=8, ancho=3))
 
     orquesta.agregarMusico(musico)
     orquesta.agregarMusico(musico)
@@ -235,9 +235,9 @@ test "No se puede agregar dos veces el mismo músico" {
 
 test "No se puede agregar más músicos del permitido" {
     const orquesta = new Orquesta(maximoDeMusicos = 2)
-    const m1 = new Musico(preferencia = "viento", instrumento=new Bechstein(largo=8, ancho=3))
-    const m2 = new Musico(preferencia = "cuerdas", instrumento=new Bechstein(largo=8, ancho=3))
-    const m3 = new Musico(preferencia = "percusion", instrumento=new Bechstein(largo=8, ancho=3))
+    const m1 = new MusicoGenerico(preferencia = "viento", instrumento=new Bechstein(largo=8, ancho=3))
+    const m2 = new MusicoGenerico(preferencia = "cuerdas", instrumento=new Bechstein(largo=8, ancho=3))
+    const m3 = new MusicoGenerico(preferencia = "percusion", instrumento=new Bechstein(largo=8, ancho=3))
 
     orquesta.agregarMusico(m1)
     orquesta.agregarMusico(m2)
@@ -248,8 +248,8 @@ test "No se puede agregar más músicos del permitido" {
 
 test "Se pueden agregar músicos mientras no se exceda el máximo" {
     const orquesta = new Orquesta(maximoDeMusicos = 3)
-    const m1 = new Musico(preferencia = "viento", instrumento=new Bechstein(largo=8, ancho=3))
-    const m2 = new Musico(preferencia = "cuerdas", instrumento=new Bechstein(largo=8, ancho=3))
+    const m1 = new MusicoGenerico(preferencia = "viento", instrumento=new Bechstein(largo=8, ancho=3))
+    const m2 = new MusicoGenerico(preferencia = "cuerdas", instrumento=new Bechstein(largo=8, ancho=3))
 
     orquesta.agregarMusico(m1)
     orquesta.agregarMusico(m2)
@@ -259,8 +259,8 @@ test "Se pueden agregar músicos mientras no se exceda el máximo" {
 
 test "Una orquesta está bien conformada porque todos sus integrantes son felices" {
     const orquesta = new Orquesta(maximoDeMusicos = 2)
-    const m1 = new Musico(preferencia = "viento", instrumento = new Jupiter(sordina=true, temperatura=20))
-    const m2 = new Musico(preferencia = "cuerdas", instrumento=new Bechstein(largo=8, ancho=3))
+    const m1 = new MusicoGenerico(preferencia = "viento", instrumento = new Jupiter(sordina=true, temperatura=20))
+    const m2 = new MusicoGenerico(preferencia = "cuerdas", instrumento=new Bechstein(largo=8, ancho=3))
 
     orquesta.agregarMusico(m1)
     orquesta.agregarMusico(m2)
@@ -270,8 +270,8 @@ test "Una orquesta está bien conformada porque todos sus integrantes son felice
 
 test "Una orquesta no está bien conformada porque alguno de sus integrantes no es feliz" {
     const orquesta = new Orquesta(maximoDeMusicos = 2)
-    const m1 = new Musico(preferencia = "viento", instrumento=new Jupiter(sordina=false, temperatura=20))
-    const m2 = new Musico(preferencia = "cuerdas", instrumento=new Bechstein(largo=8, ancho=3))
+    const m1 = new MusicoGenerico(preferencia = "viento", instrumento=new Jupiter(sordina=false, temperatura=20))
+    const m2 = new MusicoGenerico(preferencia = "cuerdas", instrumento=new Bechstein(largo=8, ancho=3))
 
     orquesta.agregarMusico(m1)
     orquesta.agregarMusico(m2)
