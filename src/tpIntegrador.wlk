@@ -1,17 +1,3 @@
-class Instrumento{
-
-    var familia
-
-    method afinado(){}
-
-    method costo(){}
-
-    method esValioso(){}
-
-    method getFamilia(){
-        return familia
-    }
-}
 
 class FenderStratocaster{
     const color
@@ -225,4 +211,96 @@ class Orquesta{
         musicos.forEach({m => todosFelices = m.esFeliz() && todosFelices})
         return todosFelices
     }
+}
+
+class Fecha{
+    const dia
+    const mes
+    const anio
+
+    method getDia() = dia
+    method getMes() = mes
+    method getAnio() = anio
+}
+
+class Diferencia{
+    const dias
+    const meses
+    const anios
+
+    method getDias() = dias
+    method getMeses() = meses
+    method getAnios() = anios
+}
+
+// Asumo que cada mes tiene 30 dias
+object calculadorDiferenciaFechas{
+    method calcular(fecha, fechaActual) {
+        const dia1 = fecha.getDia()
+        const mes1 = fecha.getMes()
+        const anio1 = fecha.getAnio()
+
+        var dia2 = fechaActual.getDia()
+        var mes2 = fechaActual.getMes()
+        var anio2 = fechaActual.getAnio()
+
+        var dias = 0
+        var meses = 0
+        var anios = 0
+
+        if (dia2 < dia1) {
+            dia2 = dia2 + 30    // pedimos "prestado" un mes
+            mes2 = mes2 - 1
+        }
+
+        dias = dia2 - dia1
+
+        if (mes2 < mes1) {
+            mes2 = mes2 + 12    // pedimos "prestado" un año
+            anio2 = anio2 - 1
+        }
+
+        meses = mes2 - mes1
+        anios = anio2 - anio1
+
+        return new Diferencia(dias = dias, meses = meses, anios = anios)
+    }
+}
+
+class Instrumento{
+
+    const familia
+    const afinaciones = []
+
+    method afinado(fechaActual){
+        const ultimaAfinacion = afinaciones.last()
+        const diferencia = calculadorDiferenciaFechas.calcular(ultimaAfinacion, fechaActual)
+
+        return (diferencia.getMeses() == 0 && diferencia.getAnios() == 0)
+    }
+
+    method costo(valorFijo){
+        var multiplicador
+        var n = valorFijo
+
+        if(n < 1 || n > 10){
+            n = 1.randomUpTo(10)
+        }
+        if(n%2==0){
+                multiplicador = 2
+            }else{
+                multiplicador = 3
+            }
+        return multiplicador*familia.length()
+    }
+
+    method esValioso(){}
+
+    method getFamilia(){
+        return familia
+    }
+}
+
+class Afinacion{
+    
 }

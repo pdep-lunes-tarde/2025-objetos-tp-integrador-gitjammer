@@ -278,3 +278,14 @@ test "Una orquesta no está bien conformada porque alguno de sus integrantes no 
 
     assert.equals(false, orquesta.estaBienFormada())
 }
+
+// 4 Instrumentos Genericos
+const instrumentoCuerdas = new Instrumento(familia="cuerdas")
+test "El costo de un instrumento de “cuerdas” cuando el número al azar es par, debe dar 14"{
+    assert.equals(14, instrumentoCuerdas.costo(2))
+}
+
+test "El costo de un instrumento de “cuerdas” cuando el número al azar es impar, debe dar 21"{
+    assert.equals(21, instrumentoCuerdas.costo(3))
+}
+
