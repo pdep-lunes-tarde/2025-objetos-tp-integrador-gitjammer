@@ -1,8 +1,8 @@
 # Grupo
 
-Nombre: **COMPLETAR ACA**
+Nombre: **GitJammer**
 
-Integrantes: **COMPLETAR ACA**
+Integrantes: **Juan Manuel Bravo, Matias Maccaroni, Hernán Muñiz, Nicolás Mustafa**
 
 # Enunciado
 
@@ -15,6 +15,7 @@ Fecha de entrega: 9/10
 Parte 2: **Proximamente**
 
 Fecha de entrega: 20/10
+
 
 
 
