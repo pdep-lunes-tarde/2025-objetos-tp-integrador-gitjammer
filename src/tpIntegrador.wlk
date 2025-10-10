@@ -12,12 +12,13 @@ class FenderStratocaster{
 
     method getFamilia() = familia
 
-    const verificaciones = [] // del tipo Verificacion
+    var verificaciones = [] // del tipo Verificacion
+    method verificaciones()=verificaciones
 
     method nombre()="FenderStratocaster"
 
     method afinar(tecnico, fechaActual){ // Del tipo Fecha
-        if(verificador.tiempo(fechaActual, verificaciones)){
+        if(verificar.tiempo(fechaActual, verificaciones)){
             verificaciones.add(new Verificacion(tecnico=tecnico, fecha=fechaActual))
         }
     }// Siempre esta afinado, por lo que solo guardamos la verificacion
@@ -44,7 +45,8 @@ class Jupiter{
     const temperatura
     const familia = "Viento"
     var estaAfinado = false
-    const verificaciones = [] // del tipo Verificacion
+    var verificaciones = [] // del tipo Verificacion
+    method verificaciones()=verificaciones
 
     method nombre() = "Jupiter"
 
@@ -55,7 +57,7 @@ class Jupiter{
     }
 
     method afinar(tecnico, fechaActual){ // Del tipo Fecha
-        if(verificador.tiempo(fechaActual, verificaciones)){
+        if(verificar.tiempo(fechaActual, verificaciones)){
             verificaciones.add(new Verificacion(tecnico=tecnico, fecha=fechaActual))
             estaAfinado = true
         }
@@ -85,10 +87,11 @@ class Bechstein{
     var largo = 5
     var ancho = 5
     const familia = "Cuerdas"
-    const verificaciones = [] // del tipo Verificacion
+    var verificaciones = [] // del tipo Verificacion
+    method verificaciones()=verificaciones
 
     method afinar(tecnico, fechaActual){ // Del tipo Fecha
-        if(verificador.tiempo(fechaActual, verificaciones)){
+        if(verificar.tiempo(fechaActual, verificaciones)){
             largo = 8
             ancho = 4
             verificaciones.add(new Verificacion(tecnico=tecnico, fecha=fechaActual))
@@ -121,16 +124,16 @@ class Stagg{
     var tremolo
     const pintura
     const familia = "Cuerdas"
-    const verificaciones = [] // del tipo Verificacion
+    var verificaciones = [] // del tipo Verificacion
 
     method getFamilia()=familia
 
     method nombre()="Stagg"
 
-    method getVerificaciones()=verificaciones
+    method verificaciones()=verificaciones
 
     method afinar(tecnico, fechaActual){ // Del tipo Fecha
-        if(verificador.tiempo(fechaActual, self.getVerificaciones())){
+        if(verificar.tiempo(fechaActual, verificaciones)){
             tremolo = 0
             verificaciones.add(new Verificacion(tecnico=tecnico, fecha=fechaActual))
         }
@@ -314,11 +317,11 @@ class Verificacion{
 
     method getTecnico() = tecnico 
 
-    method fecha() = fecha
+    method getFecha() = fecha
 }
 
 
-object verificador{
+object verificar{
     method tiempo(fechaActual, verificaciones){
         if(verificaciones.isEmpty()){
             return true
@@ -326,7 +329,7 @@ object verificador{
         else{
             const verificacionMasReciente = verificaciones.last().getFecha()
             const diferencia = calculadorDiferenciaFechas.calcular(verificacionMasReciente, fechaActual)
-            return (diferencia.getDias() >= 7 || diferencia.getMes() > 0 || diferencia.getAnio() > 0)
+            return (diferencia.getDias() >= 7 || diferencia.getMeses() > 0 || diferencia.getAnios() > 0)
         }
     }
 }

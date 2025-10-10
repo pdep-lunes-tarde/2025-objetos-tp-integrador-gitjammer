@@ -41,12 +41,6 @@ test "Una trompeta Júpiter a una temperatura ambiente de 26 grados no está afi
     assert.equals(false, jupiter26.afinado())
 }
 
-const jupiter19afinada = new Jupiter(sordina=false, temperatura=19)
-test "Una trompeta Júpiter a una temperatura ambiente de 19 grados, si la afinamos, pasa a estar afinada" {
-    jupiter19afinada.afinar()
-    assert.equals(true, jupiter19afinada.afinado())
-}
-
 const jupiterSinSordina = new Jupiter(sordina=false, temperatura=20)
 test "La trompeta cuesta sin sordina 30 chelines" {
     assert.equals(30, jupiterSinSordina.costo())
@@ -287,5 +281,78 @@ test "El costo de un instrumento de “cuerdas” cuando el número al azar es p
 
 test "El costo de un instrumento de “cuerdas” cuando el número al azar es impar, debe dar 21"{
     assert.equals(21, instrumentoCuerdas.costo(3))
+}
+
+// ... (aquí irían todos tus tests anteriores) ...
+
+// ==========================================================
+// 5 - Tests de Afinación y Revisión de Instrumentos
+// ==========================================================
+
+// --- Definiciones comunes para los tests de afinación ---
+
+// Añado una clase Tecnico simple ya que es necesaria para los tests.
+class Tecnico {
+    const nombre
+}
+const unTecnico = new Tecnico(nombre="Tester")
+const fechaInicial = new Fecha(dia=1, mes=10, anio=2025)
+const fechaCercana = new Fecha(dia=5, mes=10, anio=2025) // Menos de una semana después
+const fechaLejana = new Fecha(dia=15, mes=10, anio=2025) // Más de una semana después
+
+
+// --- Tests ---
+
+test "No se puede afinar un instrumento si pasó menos de una semana" {
+    // Se crea un piano y se le hace una primera afinación.
+    const pianito = new Bechstein()
+    pianito.afinar(unTecnico, fechaInicial)
+    
+    // Se verifica que la primera verificación se registró.
+    //assert.equals(1, pianito.verificaciones.size())
+
+    // Se intenta afinar de nuevo en una fecha muy cercana (no debería poderse).
+    pianito.afinar(unTecnico, fechaCercana)
+
+    // La cantidad de verificaciones NO debe haber aumentado.
+    assert.equals(1, pianito.verificaciones().size())
+}
+
+test "Al afinar el instrumento se genera una nueva revisión" {
+    const violin = new Stagg(tremolo=0, pintura="mate")
+    assert.equals(0, violin.verificaciones().size())
+
+    // Se realiza una afinación (cumple la condición de tiempo).
+    violin.afinar(unTecnico, fechaLejana)
+
+    // La cantidad de verificaciones debe ser 1.
+    assert.equals(1, violin.verificaciones().size())
+    // Verificamos que los datos de la última verificación sean correctos.
+    assert.equals(unTecnico, violin.verificaciones().last().getTecnico())
+    assert.equals(fechaLejana, violin.verificaciones().last().getFecha())
+}
+
+test "Al afinar un piano Bechstein desafinado, queda afinado" {
+    // Se crea un piano en una habitación chica (20m2), por lo tanto está desafinado.
+    const pianoDesafinado = new Bechstein(largo=4, ancho=5)
+    assert.equals(false, pianoDesafinado.afinado())
+
+    // Se afina el piano. La acción 'afinar' lo mueve a una habitación de 8x4.
+    pianoDesafinado.afinar(unTecnico, fechaInicial)
+
+    // Ahora el piano debería estar afinado (32m2 > 20m2).
+    assert.equals(true, pianoDesafinado.afinado())
+}
+
+test "Al afinar una trompeta Jupiter desafinada, queda afinada" {
+    // Se crea una trompeta a una temperatura no ideal, por lo tanto está desafinada.
+    const trompetaDesafinada = new Jupiter(sordina=false, temperatura=15)
+    assert.equals(false, trompetaDesafinada.afinado())
+
+    // Se afina la trompeta. La acción 'afinar' cambia su estado a 'estaAfinado = true'.
+    trompetaDesafinada.afinar(unTecnico, fechaInicial)
+
+    // Ahora la trompeta debería estar afinada gracias al estado manual.
+    assert.equals(true, trompetaDesafinada.afinado())
 }
 
